@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: local
+
+    group:
+      local:
+        - db
+        - jwt
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+logging:
+  level:
+    noogi.api: DEBUG
