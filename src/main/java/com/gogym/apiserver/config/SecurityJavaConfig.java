@@ -52,7 +52,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
                 .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/user/*", "/api/auth/user/*").permitAll()
+                .antMatchers("/api/user/*", "/api/auth/user/*", "/api/auth/trainer/*").permitAll()
                 .antMatchers(
                         "/v2/api-docs",  "/configuration/ui",
                         "/swagger-resources/**", "/configuration/security",

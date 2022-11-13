@@ -42,7 +42,6 @@ public class User extends BaseTimeEntity {
         @Temporal(TemporalType.DATE)
         private Date date;
 
-
         @Enumerated(EnumType.STRING)
         private Role role;
 

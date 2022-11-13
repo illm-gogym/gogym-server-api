@@ -16,11 +16,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final RegistrationService registrationService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public List<User> getUsersByTrainerId(String trainerId) {
+        return userRepository.getUsersByTrainerId(trainerId);
     }
 
     @Transactional
@@ -29,6 +34,7 @@ public class UserService {
             throw new PhoneNumberDuplicateException("email duplicated", ErrorCode.PHONE_NUMBER_DUPLICATION);
         }
 
+        registrationService.addRegistration(requestDto);
         return userRepository.save(makeUser(requestDto));
     }
 
