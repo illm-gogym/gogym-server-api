@@ -1,7 +1,7 @@
 package com.gogym.apiserver.controller;
 
 import com.gogym.apiserver.dto.token.TokenResponseDto;
-import com.gogym.apiserver.dto.user.UserLoginDto;
+import com.gogym.apiserver.dto.trainer.TrainerLoginDto;
 import com.gogym.apiserver.jwt.JwtFilter;
 import com.gogym.apiserver.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("authenticate")
-    public ResponseEntity<TokenResponseDto> authorize(@Valid @RequestBody UserLoginDto loginDto) {
+    public ResponseEntity<TokenResponseDto> authorize(@Valid @RequestBody TrainerLoginDto loginDto) {
         TokenResponseDto tokenResponseDto = authService.login(loginDto);
 
         // 1. Response Header에 token 값을 넣어준다.

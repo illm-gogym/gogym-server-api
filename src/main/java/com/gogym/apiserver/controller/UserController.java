@@ -37,7 +37,8 @@ public class UserController {
     }
 
     @PostMapping("signup")
-    @ApiOperation(value = "회원가입", notes = "회원이 회원가입 할 수 있다.")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @ApiOperation(value = "회원등록", notes = "트레이너가 회원을 등록 할 수 있다.")
     public ResponseEntity<? extends BasicResponse> signup(@Valid @RequestBody UserSaveRequestDto requestDto) {
         System.out.println(API_NAME + "/signup");
         return ResponseEntity.ok(new CommonResponse<>(userService.signup(requestDto)));

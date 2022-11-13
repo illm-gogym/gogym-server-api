@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Builder
@@ -21,28 +20,26 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends BaseTimeEntity {
+public class Trainer extends BaseTimeEntity {
+    @Id
+    @Column(name="trainer_id")
+    private String trainerId;
 
-        @Id
-        @Column(name="user_phone")
-        private String userPhone;
+    @Column(name="trainer_password")
+    @JsonIgnore
+    private String password;
+
+    @Column(name="trainer_name")
+    private String name;
+
+    @Column(name="trainer_phone")
+    private String trainerPhone;
+
+    @Column(name="gym_id")
+    private Long gymId;
 
 
-        @Column(name="user_password")
-        @JsonIgnore
-        private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-        @Column(name="user_name")
-        private String name;
-
-        @Column(name="user_gender")
-        private String gender;
-
-        @Column(name="user_birth")
-        @Temporal(TemporalType.DATE)
-        private Date date;
-
-        @Enumerated(EnumType.STRING)
-        private Role role;
-
-    }
+}

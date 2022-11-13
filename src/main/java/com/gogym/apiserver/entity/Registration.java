@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.gogym.apiserver.entity.common.BaseTimeEntity;
-import com.gogym.apiserver.entity.common.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,28 +20,28 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User extends BaseTimeEntity {
+public class Registration extends BaseTimeEntity {
 
-        @Id
-        @Column(name="user_phone")
-        private String userPhone;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long registrationId;
 
+    @Column(name="gym_id")
+    private Long gymId;
 
-        @Column(name="user_password")
-        @JsonIgnore
-        private String password;
+    @Column(name="trainer_id")
+    private String trainerId;
 
-        @Column(name="user_name")
-        private String name;
+    @Column(name="user_phone")
+    private String userPhone;
 
-        @Column(name="user_gender")
-        private String gender;
+    @Column(name="total")
+    private int total;
 
-        @Column(name="user_birth")
-        @Temporal(TemporalType.DATE)
-        private Date date;
+    @Column(name="remaining")
+    private int remaining;
 
-        @Enumerated(EnumType.STRING)
-        private Role role;
-
-    }
+    @Column(name="date_of_use")
+    @Temporal(TemporalType.DATE)
+    private Date date;
+}
