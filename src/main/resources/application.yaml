@@ -13,3 +13,5 @@ spring:
 logging:
   level:
     noogi.api: DEBUG
+
+
