@@ -1,5 +1,7 @@
 package com.gogym.apiserver.jwt;
 
+import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.exception.ExpiredTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -86,19 +88,23 @@ public class TokenProvider implements InitializingBean {
 
     // 토큰의 유효성 검증을 수행하는 validateToken 메소드 추가
     public boolean validateToken(String token) {
+        System.out.println("validateToken");
         try {
             // 토큰을 파싱해보고 발생하는 exception들을 캐치, 문제가 생기면 false, 정상이면 true를 return
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
+            throw new ExpiredTokenException("wrong", ErrorCode.TOKEN_INVALID);
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
+            throw new ExpiredTokenException("token is expired", ErrorCode.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new ExpiredTokenException("", ErrorCode.TOKEN_UNSUPPORTED);
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
+            throw new ExpiredTokenException("", ErrorCode.TOKEN_ILLEGAL_ARGUMENT);
         }
-        return false;
     }
 }
