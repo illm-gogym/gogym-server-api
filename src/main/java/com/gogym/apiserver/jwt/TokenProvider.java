@@ -25,7 +25,9 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider implements InitializingBean {
 
+    private static final String TOKEN_SUBJECT = "GOGYM TOKEN";
     private static final String AUTHORITIES_KEY = "auth";
+    private static final String TOKEN_ID = "trainer_id";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
@@ -59,8 +61,9 @@ public class TokenProvider implements InitializingBean {
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(TOKEN_SUBJECT)
                 .claim(AUTHORITIES_KEY, authorities)
+                .claim(TOKEN_ID, authentication.getName())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();

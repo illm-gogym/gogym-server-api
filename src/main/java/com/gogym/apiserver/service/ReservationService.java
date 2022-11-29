@@ -6,6 +6,7 @@ import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.repository.ReservationRepository;
 import com.gogym.apiserver.utils.DateUtil;
+import com.gogym.apiserver.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +18,17 @@ import java.util.List;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
 
-    public List<Reservation> getScheduleByTrainer(ReservationViewRequestDto requestDto) {
-        return reservationRepository.getUsersByTrainerId(requestDto.getTrainerId());
+    public List<Reservation> getScheduleByTrainer(String trainerId) {
+        return reservationRepository.getUsersByTrainerId(trainerId);
     }
 
     public List<Reservation> getScheduleByUserPhone(ReservationViewRequestDto requestDto) {
-        return reservationRepository.getScheduleByUserPhone(requestDto.getTrainerId(), requestDto.getUserPhone());
+        System.out.println("requestDto. : " +requestDto.getUserPhone());
+        return reservationRepository.getScheduleByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone());
     }
 
     public List<Reservation> getScheduleByTime(ReservationViewRequestDto requestDto) {
-        return reservationRepository.getScheduleByTime(requestDto.getTrainerId(), requestDto.getStartTime(), requestDto.getEndTime());
+        return reservationRepository.getScheduleByTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
     @Transactional

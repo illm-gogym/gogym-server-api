@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReservationViewRequestDto {
-    @ApiModelProperty(example = "bellgym", required = true)
-    private String trainerId;
 
     @Nullable
     @ApiModelProperty(example = "010-1234-5678")

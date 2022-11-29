@@ -13,7 +13,7 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SecurityUtil {
 
-    public static Optional<String> getCurrentEmail() {
+    public static Optional<String> getCurrentTrainerId() {
         // Security Context에 Authentication 객체가 저장되는 시점은
         // JwtFilter의 doFilter메소드에서 Request가 들어올 때 SecurityContext에 Authentication 객체를 저장해서 사용
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
