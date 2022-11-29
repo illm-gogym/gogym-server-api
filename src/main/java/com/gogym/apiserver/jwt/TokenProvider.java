@@ -83,7 +83,7 @@ public class TokenProvider implements InitializingBean {
                 .collect(Collectors.toList());
 
         // claims과 authorities 정보를 활용해 User (org.springframework.security.core.userdetails.User) 객체 생성
-        User principal = new User(claims.getSubject(), "", authorities);
+        User principal = new User(claims.get(TOKEN_ID).toString(), "", authorities);
 
         // Authentication 객체를 리턴
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
