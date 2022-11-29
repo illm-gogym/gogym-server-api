@@ -45,7 +45,6 @@ public class JwtFilter implements Filter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Authentication authentication = tokenProvider.getAuthentication(jwt); // 정상 토큰이면 SecurityContext 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
                 log.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
             }
             chain.doFilter(request, response);

@@ -5,6 +5,7 @@ import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.service.TrainerService;
 import com.gogym.apiserver.service.UserService;
+import com.gogym.apiserver.utils.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class TrainerController {
     @GetMapping("userall")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "트레이너별 회원 검색", notes = "해당 트레이너의 모든 회원 정보를 가져올 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getUsers(@RequestParam("trainer_id") String trainerId) {
+    public ResponseEntity<? extends BasicResponse> getUsers() {
         System.out.println(API_NAME + "/userall");
-        return ResponseEntity.ok(new CommonResponse<>(userService.getUsersByTrainerId(trainerId)));
+        return ResponseEntity.ok(new CommonResponse<>(userService.getUsersByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
     }
 }

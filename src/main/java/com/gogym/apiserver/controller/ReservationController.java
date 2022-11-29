@@ -5,6 +5,7 @@ import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
 import com.gogym.apiserver.service.ReservationService;
+import com.gogym.apiserver.utils.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +32,12 @@ public class ReservationController {
     @GetMapping("all")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "일정 검색", notes = "트레이너가 회원 일정을 모두 조회할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getScheduleByTrainer(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+    public ResponseEntity<? extends BasicResponse> getScheduleByTrainer() {
         System.out.println(API_NAME + "/add");
-        return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainer(requestDto)));
+        return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainer(SecurityUtil.getCurrentTrainerId().get())));
     }
 
-    @GetMapping("all/user")
+    @PostMapping("all/user")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "회원별 일정 검색", notes = "트레이너가 회원별 일정을 모두 조회할 수 있다.")
     public ResponseEntity<? extends BasicResponse> getScheduleByUserPhone(@Valid @RequestBody ReservationViewRequestDto requestDto) {
@@ -44,7 +45,7 @@ public class ReservationController {
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhone(requestDto)));
     }
 
-    @GetMapping("all/time")
+    @PostMapping("all/time")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "시간별 일정 검색", notes = "트레이너가 원하는 시간대의 일정을 모두 조회할 수 있다.")
     public ResponseEntity<? extends BasicResponse> getScheduleByTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
