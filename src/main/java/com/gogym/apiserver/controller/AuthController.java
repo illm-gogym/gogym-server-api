@@ -2,6 +2,8 @@ package com.gogym.apiserver.controller;
 
 import com.gogym.apiserver.dto.token.TokenResponseDto;
 import com.gogym.apiserver.dto.trainer.TrainerLoginDto;
+import com.gogym.apiserver.dto.user.UserLoginDto;
+import com.gogym.apiserver.dto.user.UserResponseDto;
 import com.gogym.apiserver.jwt.JwtFilter;
 import com.gogym.apiserver.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +20,15 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/authenticate/login")
 @RequiredArgsConstructor
 public class AuthController {
-
+    private static final String API_NAME = "api/authenticate/login/";
     private final AuthService authService;
 
-    @PostMapping("authenticate")
-    public ResponseEntity<TokenResponseDto> authorize(@Valid @RequestBody TrainerLoginDto loginDto) {
+    @PostMapping("trainer")
+    public ResponseEntity<TokenResponseDto> loginForTrainer(@Valid @RequestBody TrainerLoginDto loginDto) {
+        System.out.println(API_NAME + "trainer");
         TokenResponseDto tokenResponseDto = authService.login(loginDto);
 
         // 1. Response Header에 token 값을 넣어준다.
@@ -34,5 +37,18 @@ public class AuthController {
 
         // 2. Response Body에 token 값을 넣어준다.
         return new ResponseEntity<>(tokenResponseDto, httpHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping("user")
+    public ResponseEntity<UserResponseDto> loginForUser(@Valid @RequestBody UserLoginDto loginDto) {
+        System.out.println(API_NAME + "user");
+        UserResponseDto userResponseDto = authService.loginForUser(loginDto);
+
+        // 1. Response Header에 token 값을 넣어준다.
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + userResponseDto.getToken());
+
+        // 2. Response Body에 token 값을 넣어준다.
+        return new ResponseEntity<>(userResponseDto, httpHeaders, HttpStatus.OK);
     }
 }

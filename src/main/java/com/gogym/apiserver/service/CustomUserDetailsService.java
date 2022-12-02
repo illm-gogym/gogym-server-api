@@ -21,10 +21,16 @@ import java.util.Collections;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final TrainerRepository trainerRepository;
+    private final UserRepository userRepository;
 
     // DB에서 유저정보를 가져온다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (username.contains("010")) {
+            return userRepository.findByUserPhone(username)
+                    .map(user -> createUserDetails(user))
+                    .orElseThrow(() -> new UsernameNotFoundException(username + " 존재하지 않는 username 입니다."));
+        }
         return trainerRepository.findByTrainerId(username)
                 .map(user -> createUserDetails(user))
                 .orElseThrow(() -> new UsernameNotFoundException(username + " 존재하지 않는 username 입니다."));
@@ -38,6 +44,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 trainer.getTrainerId(),
                 trainer.getPassword(),
+                Collections.singleton(grantedAuthority)
+        );
+    }
+
+    private UserDetails createUserDetails(User user) {
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserPhone(),
+                user.getPassword(),
                 Collections.singleton(grantedAuthority)
         );
     }
