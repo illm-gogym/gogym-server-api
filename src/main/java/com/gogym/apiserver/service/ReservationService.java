@@ -40,7 +40,7 @@ public class ReservationService {
 
     private Reservation makeReservation(ReservationSaveRequestDto requestDto) {
         return Reservation.builder()
-                .trainerId(requestDto.getTrainerId())
+                .trainerId(SecurityUtil.getCurrentTrainerId().get())
                 .userPhone(requestDto.getUserPhone())
                 .startTime(requestDto.getStartTime())
                 .endTime(requestDto.getEndTime())
