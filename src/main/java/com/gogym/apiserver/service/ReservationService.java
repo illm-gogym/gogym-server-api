@@ -1,5 +1,6 @@
 package com.gogym.apiserver.service;
 
+import com.gogym.apiserver.dto.reservation.ReservationDto;
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
 import com.gogym.apiserver.dto.reservation.wrapper.ReservationWrapper;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,20 +34,28 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation addSchedule(ReservationSaveRequestDto requestDto) {
-
-        return reservationRepository.save(makeReservation(requestDto));
+    public List<Reservation> addSchedule(ReservationSaveRequestDto requestDto) {
+        return reservationRepository.saveAll(makeReservation(requestDto));
     }
 
 
-    private Reservation makeReservation(ReservationSaveRequestDto requestDto) {
-        return Reservation.builder()
-                .trainerId(SecurityUtil.getCurrentTrainerId().get())
-                .userPhone(requestDto.getUserPhone())
-                .startTime(requestDto.getStartTime())
-                .endTime(requestDto.getEndTime())
-                .description(requestDto.getDescription())
-                .usageState(requestDto.getUsageState())
-                .build();
+    private List<Reservation> makeReservation(ReservationSaveRequestDto requestDto) {
+        List<Reservation> reservations = new ArrayList<>();
+        for (ReservationDto reservationDto : requestDto.getReservations()) {
+
+            Reservation reservation = Reservation.builder()
+                    .trainerId(SecurityUtil.getCurrentTrainerId().get())
+                    .userPhone(reservationDto.getUserPhone())
+                    .startTime(reservationDto.getStartTime())
+                    .endTime(reservationDto.getEndTime())
+                    .description(reservationDto.getDescription())
+                    .usageState(reservationDto.getUsageState())
+                    .build();
+
+            reservations.add(reservation);
+        }
+        return reservations;
     }
+
+
 }
