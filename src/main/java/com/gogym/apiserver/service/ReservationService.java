@@ -2,6 +2,7 @@ package com.gogym.apiserver.service;
 
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
+import com.gogym.apiserver.dto.reservation.wrapper.ReservationWrapper;
 import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.repository.ReservationRepository;
@@ -18,16 +19,15 @@ import java.util.List;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
 
-    public List<Reservation> getScheduleByTrainer(String trainerId) {
+    public List<ReservationWrapper> getScheduleByTrainer(String trainerId) {
         return reservationRepository.getUsersByTrainerId(trainerId);
     }
 
-    public List<Reservation> getScheduleByUserPhone(ReservationViewRequestDto requestDto) {
-        System.out.println("requestDto. : " +requestDto.getUserPhone());
+    public List<ReservationWrapper> getScheduleByUserPhone(ReservationViewRequestDto requestDto) {
         return reservationRepository.getScheduleByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone());
     }
 
-    public List<Reservation> getScheduleByTime(ReservationViewRequestDto requestDto) {
+    public List<ReservationWrapper> getScheduleByTime(ReservationViewRequestDto requestDto) {
         return reservationRepository.getScheduleByTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
