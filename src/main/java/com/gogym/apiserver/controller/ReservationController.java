@@ -22,7 +22,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping("add")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @ApiOperation(value = "일정 등록", notes = "트레이너가 회원 일정을 등록할 수 있다.")
     public ResponseEntity<? extends BasicResponse> addSchedule(@Valid @RequestBody ReservationSaveRequestDto requestDto) {
         System.out.println(API_NAME + "/add");

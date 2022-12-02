@@ -69,6 +69,25 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
+    public String createTokenForUser(Authentication authentication, com.gogym.apiserver.entity.User user) {
+        String authorities = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        System.out.println("builder");
+        return Jwts.builder()
+                .setSubject(TOKEN_SUBJECT)
+                .claim(AUTHORITIES_KEY, authorities)
+                .claim("USER_PHONE", authentication.getName())
+                .claim("USER_NAME", user.getName())
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+    }
+
     // token에 담겨있는 정보를 이용해 Authentication 객체를 리턴하는 메소드 생성
     public Authentication getAuthentication(String token) {
         // token을 활용하여 Claims 생성
