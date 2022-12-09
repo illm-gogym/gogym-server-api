@@ -23,26 +23,31 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends BaseTimeEntity {
 
-        @Id
-        @Column(name="user_phone")
-        private String userPhone;
+    @Id
+    @Column(name = "user_phone")
+    private String userPhone;
 
 
-        @Column(name="user_password")
-        @JsonIgnore
-        private String password;
+    @Column(name = "user_password")
+    @JsonIgnore
+    private String password;
 
-        @Column(name="user_name")
-        private String name;
+    @Column(name = "user_name")
+    private String name;
 
-        @Column(name="user_gender")
-        private String gender;
+    @Column(name = "user_gender")
+    private String gender;
 
-        @Column(name="user_birth")
-        @Temporal(TemporalType.DATE)
-        private Date date;
+    @Column(name = "user_birth")
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
-        @Enumerated(EnumType.STRING)
-        private Role role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
+
+    public void printUser() {
+        System.out.println("user_phone : " + this.userPhone);
+        System.out.println("user_pw : " + this.password);
     }
+}
