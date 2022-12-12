@@ -1,9 +1,13 @@
 package com.gogym.apiserver.service;
 
+import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
+import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
 import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Reservation;
+import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.repository.ReservationRepository;
 import com.gogym.apiserver.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +50,33 @@ public class ReservationService {
                 .description(requestDto.getDescription())
                 .usageState(requestDto.getUsageState())
                 .build();
+    }
+
+    public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
+        Optional<Reservation> byId = reservationRepository.findById(requestDto.getRegistrationId());
+        if (!byId.isPresent()) {
+            new ErrorResponse(ErrorCode.NOT_FOUND);
+        }
+
+        Reservation reservation = byId.get();
+        reservation.updateReservation(requestDto.getUserPhone()
+                , requestDto.getStartTime()
+                , requestDto.getEndTime()
+                , requestDto.getDescription()
+                , requestDto.getUsageState());
+
+        return reservationRepository.save(reservation);
+    }
+
+    public Reservation deleteSchedule(Long id) {
+        Optional<Reservation> byId = reservationRepository.findById(id);
+        if (!byId.isPresent()) {
+            new ErrorResponse(ErrorCode.NOT_FOUND);
+        }
+
+        Reservation reservation = byId.get();
+        reservationRepository.delete(reservation);
+
+        return reservation;
     }
 }

@@ -35,4 +35,11 @@ public class Reservation extends BaseTimeEntity {
     private String description;
     private int usageState;
 
+    public void updateReservation(String userPhone, LocalDateTime startTime, LocalDateTime endTime, String description, Integer usageState) {
+        this.userPhone = userPhone;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.usageState = usageState;
+    }
 }
