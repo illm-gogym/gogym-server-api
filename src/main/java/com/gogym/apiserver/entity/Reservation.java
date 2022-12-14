@@ -28,6 +28,7 @@ public class Reservation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 
+    private Long registrationId;
     private String trainerId;
     private String userPhone;
     private LocalDateTime startTime;
