@@ -51,15 +51,9 @@ public class ReservationController {
     @GetMapping("all")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "일정 검색", notes = "트레이너가 회원 일정을 모두 조회할 수 있다.")
-<<<<<<< HEAD
-    public ResponseEntity<? extends BasicResponse> getScheduleByTrainer(@Valid @RequestBody ReservationViewRequestDto requestDto) {
-        log.info(API_NAME + "/add");
-        return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainer(requestDto)));
-=======
     public ResponseEntity<? extends BasicResponse> getScheduleByTrainer() {
         System.out.println(API_NAME + "/add");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainer(SecurityUtil.getCurrentTrainerId().get())));
->>>>>>> main
     }
 
     @PostMapping("all/user")
