@@ -33,6 +33,10 @@ public class ReservationService {
         return reservationRepository.getScheduleByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone());
     }
 
+    public List<ReservationWrapper> getScheduleByUserPhoneAndTime(ReservationViewRequestDto requestDto) {
+        return reservationRepository.getScheduleByUserPhoneAndTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone(), requestDto.getStartTime(), requestDto.getEndTime());
+    }
+
     public List<ReservationWrapper> getScheduleByTime(ReservationViewRequestDto requestDto) {
         return reservationRepository.getScheduleByTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getStartTime(), requestDto.getEndTime());
     }
