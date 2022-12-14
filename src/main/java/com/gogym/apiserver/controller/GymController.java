@@ -26,7 +26,7 @@ public class GymController {
 
     @PostMapping("/")
     //@PreAuthorize("hasAnyRole('ADMIN')")
-    @ApiOperation(value = "Gym 생성", notes = "Gym 생성")
+    @ApiOperation(value = "Gym 생성", notes = "Gym 생성 ")
     public ResponseEntity<CommonResponse> addGym(@RequestBody Gym req) {
         return new ResponseEntity<>(new CommonResponse<>(gymService.addGym(req)), HttpStatus.OK);
     }
