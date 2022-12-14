@@ -3,6 +3,7 @@ package com.gogym.apiserver.service;
 import com.gogym.apiserver.dto.user.UserSaveRequestDto;
 import com.gogym.apiserver.entity.User;
 import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.exception.NotExistUserException;
 import com.gogym.apiserver.error.exception.PhoneNumberDuplicateException;
 import com.gogym.apiserver.repository.UserRepository;
 import com.gogym.apiserver.utils.DateUtil;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,14 @@ public class UserService {
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserByUserPhone(String userPhone) {
+        Optional<User> user = userRepository.findByUserPhone(userPhone);
+        if (user.orElse(null) == null) {
+            throw new NotExistUserException("does not exist user", ErrorCode.NOT_EXIST_USER);
+        }
+        return user.get();
     }
 
     public List<User> getUsersByTrainerId(String trainerId) {
