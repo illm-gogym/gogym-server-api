@@ -1,10 +1,6 @@
 package com.gogym.apiserver.service;
 
-<<<<<<< HEAD
-import com.gogym.apiserver.controller.response.CommonResponse;
-=======
 import com.gogym.apiserver.dto.reservation.ReservationDto;
->>>>>>> main
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
@@ -64,8 +60,6 @@ public class ReservationService {
         }
         return reservations;
     }
-
-<<<<<<< HEAD
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
         Optional<Reservation> byId = reservationRepository.findById(requestDto.getRegistrationId());
         if (!byId.isPresent()) {
@@ -93,7 +87,5 @@ public class ReservationService {
 
         return reservation;
     }
-=======
 
->>>>>>> main
 }
