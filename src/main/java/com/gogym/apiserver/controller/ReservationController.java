@@ -45,6 +45,14 @@ public class ReservationController {
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhone(requestDto)));
     }
 
+    @PostMapping("all/usertime")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @ApiOperation(value = "회원별 시간별 일정 검색", notes = "트레이너가 회원별&시간별 일정을 모두 조회할 수 있다.")
+    public ResponseEntity<? extends BasicResponse> getScheduleByUserPhoneAndTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+        System.out.println(API_NAME + "/add/usertime");
+        return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhoneAndTime(requestDto)));
+    }
+
     @PostMapping("all/time")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "시간별 일정 검색", notes = "트레이너가 원하는 시간대의 일정을 모두 조회할 수 있다.")
