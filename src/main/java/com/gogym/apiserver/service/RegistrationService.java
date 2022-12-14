@@ -2,9 +2,6 @@ package com.gogym.apiserver.service;
 
 import com.gogym.apiserver.dto.user.UserSaveRequestDto;
 import com.gogym.apiserver.entity.Registration;
-import com.gogym.apiserver.entity.User;
-import com.gogym.apiserver.error.common.ErrorCode;
-import com.gogym.apiserver.error.exception.PhoneNumberDuplicateException;
 import com.gogym.apiserver.repository.RegistrationRepository;
 import com.gogym.apiserver.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +25,13 @@ public class RegistrationService {
                 .trainerId(requestDto.getTrainerId())
                 .userPhone(requestDto.getPhone())
                 .total(requestDto.getTotal())
+                .status(1)
                 .remaining(requestDto.getRemaining())
                 .date(DateUtil.stringToDate(requestDto.getUntil()))
                 .build();
+    }
+
+    public Long getRegistrationId(String trainerId, String userPhone) {
+        return registrationRepository.getRegistrationIdByTrainerIdAndUserPhone(trainerId, userPhone);
     }
 }

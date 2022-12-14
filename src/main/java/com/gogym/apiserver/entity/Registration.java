@@ -41,6 +41,8 @@ public class Registration extends BaseTimeEntity {
     @Column(name="remaining")
     private int remaining;
 
+    private int status;
+
     @Column(name="date_of_use")
     @Temporal(TemporalType.DATE)
     private Date date;

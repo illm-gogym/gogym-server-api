@@ -9,10 +9,12 @@ import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
+import com.gogym.apiserver.repository.RegistrationRepository;
 import com.gogym.apiserver.repository.ReservationRepository;
 import com.gogym.apiserver.utils.DateUtil;
 import com.gogym.apiserver.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
     private final ReservationRepository reservationRepository;
+    private final RegistrationService registrationService;
 
     public List<ReservationWrapper> getScheduleByTrainer(String trainerId) {
         return reservationRepository.getUsersByTrainerId(trainerId);
@@ -50,16 +54,21 @@ public class ReservationService {
     private List<Reservation> makeReservation(ReservationSaveRequestDto requestDto) {
         List<Reservation> reservations = new ArrayList<>();
         for (ReservationDto reservationDto : requestDto.getReservations()) {
-
+            String trainerId = SecurityUtil.getCurrentTrainerId().get();
+            String userPhone = reservationDto.getUserPhone();
+            log.info("trainer_id={}, user_phone={}", trainerId, userPhone);
+            Long registrationId = registrationService.getRegistrationId(trainerId, userPhone);
+            log.info("registratiaon_id={}", registrationId);
+            System.out.println();
             Reservation reservation = Reservation.builder()
-                    .trainerId(SecurityUtil.getCurrentTrainerId().get())
-                    .userPhone(reservationDto.getUserPhone())
+                    .registrationId(registrationId)
+                    .trainerId(trainerId)
+                    .userPhone(userPhone)
                     .startTime(reservationDto.getStartTime())
                     .endTime(reservationDto.getEndTime())
                     .description(reservationDto.getDescription())
                     .usageState(reservationDto.getUsageState())
                     .build();
-
             reservations.add(reservation);
         }
         return reservations;
