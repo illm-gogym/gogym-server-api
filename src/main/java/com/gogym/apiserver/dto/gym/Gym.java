@@ -23,11 +23,16 @@ import javax.persistence.Id;
 public class Gym extends BaseTimeEntity {
     @Id
     @Column(name = "gym_id")
-    private String id;
+    private String gymId;
     @Column(name = "gym_name")
-    private String name;
+    private String gymName;
     @Column(name = "gym_tel")
-    private String tel;
+    private String gymTel;
     @Column(name = "gym_address")
-    private String address;
+    private String gymAddress;
+
+    public void printGym() {
+        System.out.println("gym_id : " + this.gymId);
+        System.out.println("gym_name : " + this.gymName);
+    }
 }

@@ -18,17 +18,18 @@ import org.springframework.web.bind.annotation.*;
 })
 
 @RestController
-@RequestMapping("api/auth/gym")
+@RequestMapping("/api/auth/gym")
 @AllArgsConstructor
 @Api(tags = {"Gym 관련 API"})
 public class GymController {
-    private static final String API_NAME = "api/auth/gym";
+    private static final String API_NAME = "/api/auth/gym";
     private final GymService gymService;
 
-    @PostMapping("/")
+    @PostMapping("add")
     //@PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "Gym 생성", notes = "Gym 생성 ")
     public ResponseEntity<CommonResponse> addGym(@RequestBody Gym req) {
+        System.out.println(API_NAME + "/");
         return new ResponseEntity<>(new CommonResponse<>(gymService.addGym(req)), HttpStatus.OK);
     }
 
