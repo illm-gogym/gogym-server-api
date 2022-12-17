@@ -12,12 +12,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId ORDER BY re.reservationId DESC")
     List<ReservationWrapper> getUsersByTrainerId(String trainerId);
 
-    @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId AND re.userPhone =:userPhone ORDER BY re.reservationId DESC")
-    List<ReservationWrapper> getScheduleByUserPhone(String trainerId, String userPhone);
+    @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId AND re.userPhone IN (:userPhone) ORDER BY re.reservationId DESC")
+    List<ReservationWrapper> getScheduleByUserPhone(String trainerId, List<String> userPhone);
 
     @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId AND re.startTime >= :startTime AND re.endTime <= :endTime ORDER BY re.reservationId DESC")
     List<ReservationWrapper> getScheduleByTime(String trainerId, LocalDateTime startTime, LocalDateTime endTime);
 
-    @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId AND re.userPhone =:userPhone AND re.startTime >= :startTime AND re.endTime <= :endTime ORDER BY re.reservationId DESC")
-    List<ReservationWrapper> getScheduleByUserPhoneAndTime(String trainerId, String userPhone, LocalDateTime startTime, LocalDateTime endTime);
+    @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId = :trainerId AND re.userPhone IN (:userPhone) AND re.startTime >= :startTime AND re.endTime <= :endTime ORDER BY re.reservationId DESC")
+    List<ReservationWrapper> getScheduleByUserPhoneAndTime(String trainerId, List<String> userPhone, LocalDateTime startTime, LocalDateTime endTime);
+
+    @Query("SELECT u as user, re as reservation FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone WHERE re.trainerId IN (:trainerId) AND re.startTime >= :startTime AND re.endTime <= :endTime ORDER BY re.reservationId DESC")
+    List<ReservationWrapper> getScheduleByTrainerIdAndTime(List<String> trainerId, LocalDateTime startTime, LocalDateTime endTime);
 }

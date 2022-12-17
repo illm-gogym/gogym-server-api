@@ -8,14 +8,19 @@ import lombok.Getter;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReservationViewRequestDto {
 
     @Nullable
-    @ApiModelProperty(example = "010-1234-5678")
-    private String userPhone;
+    @ApiModelProperty(example = "01012345678")
+    private List<String> userPhone;
+
+    @Nullable
+    @ApiModelProperty(example = "bellgym")
+    private List<String> trainerId;
 
     @ApiModelProperty(example = "2002-01-01 09:00", required = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
