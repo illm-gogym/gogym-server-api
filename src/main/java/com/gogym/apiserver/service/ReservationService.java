@@ -45,6 +45,10 @@ public class ReservationService {
         return reservationRepository.getScheduleByTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
+    public List<ReservationWrapper> getScheduleByTrainerIdAndTime(ReservationViewRequestDto requestDto) {
+        return reservationRepository.getScheduleByTrainerIdAndTime(requestDto.getTrainerId(), requestDto.getStartTime(), requestDto.getEndTime());
+    }
+
     @Transactional
     public List<Reservation> addSchedule(ReservationSaveRequestDto requestDto) {
         return reservationRepository.saveAll(makeReservation(requestDto));

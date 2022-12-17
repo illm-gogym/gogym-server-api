@@ -68,7 +68,7 @@ public class ReservationController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "회원별 시간별 일정 검색", notes = "트레이너가 회원별&시간별 일정을 모두 조회할 수 있다.")
     public ResponseEntity<? extends BasicResponse> getScheduleByUserPhoneAndTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
-        System.out.println(API_NAME + "/add/usertime");
+        System.out.println(API_NAME + "/all/usertime");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhoneAndTime(requestDto)));
     }
 
@@ -78,5 +78,13 @@ public class ReservationController {
     public ResponseEntity<? extends BasicResponse> getScheduleByTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
         log.info(API_NAME + "/add/time");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTime(requestDto)));
+    }
+
+    @PostMapping("all/trainertime")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @ApiOperation(value = "트레이너별 시간별 일정 검색", notes = "트레이너가 트레이너별&시간별 일정을 모두 조회할 수 있다.")
+    public ResponseEntity<? extends BasicResponse> getScheduleByTrainerIdAndTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+        System.out.println(API_NAME + "/all/trainertime");
+        return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainerIdAndTime(requestDto)));
     }
 }
