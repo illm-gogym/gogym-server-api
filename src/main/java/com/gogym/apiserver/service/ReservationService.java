@@ -74,7 +74,7 @@ public class ReservationService {
         return reservations;
     }
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
-        Optional<Reservation> byId = reservationRepository.findById(requestDto.getRegistrationId());
+        Optional<Reservation> byId = reservationRepository.findById(requestDto.getReservationId());
         if (!byId.isPresent()) {
             new ErrorResponse(ErrorCode.NOT_FOUND);
         }

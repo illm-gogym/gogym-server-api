@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReservationUpdateRequestDto {
     @ApiModelProperty(example = "1", required = true)
-    private Long registrationId;
+    private Long reservationId;
 
     @ApiModelProperty(example = "010-1234-5678", required = true)
     private String userPhone;
