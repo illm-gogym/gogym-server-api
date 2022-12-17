@@ -38,4 +38,12 @@ public class TrainerController {
         System.out.println(API_NAME + "/userall");
         return ResponseEntity.ok(new CommonResponse<>(userService.getUsersByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
     }
+
+    @GetMapping("all")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @ApiOperation(value = "트레이너 목록 가져오기", notes = "해당 트레이너 헬스장의 모든 트레이너 목록을 가져올 수 있다.")
+    public ResponseEntity<? extends BasicResponse> getTrainers() {
+        System.out.println(API_NAME + "/all");
+        return ResponseEntity.ok(new CommonResponse<>(trainerService.getTrainersByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
+    }
 }

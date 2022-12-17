@@ -4,6 +4,7 @@ import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Trainer;
 import com.gogym.apiserver.entity.User;
 import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.error.exception.PhoneNumberDuplicateException;
 import com.gogym.apiserver.repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,12 @@ public class TrainerService {
                 .gymId(requestDto.getGymId())
                 .role(requestDto.getRole())
                 .build();
+    }
+
+    public List<Trainer> getTrainersByTrainerId(String trainerId) {
+        if (trainerRepository.findByTrainerId(trainerId).orElse(null) == null) {
+            new ErrorResponse(ErrorCode.NOT_FOUND);
+        }
+        return trainerRepository.getTrainersByTrainerId(trainerId);
     }
 }
