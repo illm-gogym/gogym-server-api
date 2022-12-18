@@ -1,0 +1,48 @@
+package com.gogym.apiserver.controller;
+
+import com.gogym.apiserver.controller.response.BasicResponse;
+import com.gogym.apiserver.controller.response.CommonResponse;
+import com.gogym.apiserver.service.RegistrationService;
+import com.gogym.apiserver.utils.SecurityUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@ApiResponses({
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 500, message = "Server error")
+})
+
+@Slf4j
+@RestController
+@RequestMapping("api/auth/registration")
+@AllArgsConstructor
+@Api(tags = {"수강권 관련 API"})
+public class RegistrationController {
+    private static final String API_NAME = "api/auth/registration";
+    private final RegistrationService registrationService;
+
+    @GetMapping("user/get")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @ApiOperation(value = "회원 수강권 정보", notes = "회원이 본인의 수강권 정보를 가져온다.")
+    public ResponseEntity<? extends BasicResponse> getRegistrationByUser() {
+        System.out.println(API_NAME + "/user/get");
+        return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationByUserPhone(SecurityUtil.getCurrentTrainerId().get())));
+    }
+
+    @GetMapping("trainer/get")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ApiOperation(value = "트레이너별 회원들 수강권 정보", notes = "트레이너가 본인 회원들의 수강권 정보를 가져온다.")
+    public ResponseEntity<? extends BasicResponse> getRegistrationByTrainerId() {
+        System.out.println(API_NAME + "/trainer/get");
+        return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
+    }
+}

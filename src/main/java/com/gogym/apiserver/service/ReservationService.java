@@ -54,7 +54,6 @@ public class ReservationService {
         return reservationRepository.saveAll(makeReservation(requestDto));
     }
 
-
     private List<Reservation> makeReservation(ReservationSaveRequestDto requestDto) {
         List<Reservation> reservations = new ArrayList<>();
         for (ReservationDto reservationDto : requestDto.getReservations()) {
