@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
@@ -33,5 +35,13 @@ public class RegistrationService {
 
     public Long getRegistrationId(String trainerId, String userPhone) {
         return registrationRepository.getRegistrationIdByTrainerIdAndUserPhone(trainerId, userPhone);
+    }
+
+    public List<Registration> getRegistrationByUserPhone(String userPhone) {
+        return registrationRepository.getRegistrationByUserPhone(userPhone);
+    }
+
+    public List<Registration> getRegistrationByTrainerId(String trainerId) {
+        return registrationRepository.getRegistrationByTrainerId(trainerId);
     }
 }
