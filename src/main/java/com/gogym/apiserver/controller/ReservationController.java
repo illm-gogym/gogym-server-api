@@ -4,9 +4,13 @@ import com.gogym.apiserver.controller.response.BasicResponse;
 import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
-import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByTrainerIdAndTime;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPhone;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPhoneAndTime;
+import com.gogym.apiserver.dto.reservation.select.ReservationTimeRequestDto;
 import com.gogym.apiserver.service.ReservationService;
 import com.gogym.apiserver.utils.SecurityUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +24,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("api/auth/reservation")
 @AllArgsConstructor
+@Api(tags = {"일정 관련 API"})
 public class ReservationController {
     private static final String API_NAME = "api/auth/reservation";
     private final ReservationService reservationService;
@@ -52,14 +57,14 @@ public class ReservationController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "일정 검색", notes = "트레이너가 회원 일정을 모두 조회할 수 있다.")
     public ResponseEntity<? extends BasicResponse> getScheduleByTrainer() {
-        System.out.println(API_NAME + "/add");
+        System.out.println(API_NAME + "/all");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainer(SecurityUtil.getCurrentTrainerId().get())));
     }
 
     @PostMapping("all/user")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "회원별 일정 검색", notes = "트레이너가 회원별 일정을 모두 조회할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getScheduleByUserPhone(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+    public ResponseEntity<? extends BasicResponse> getScheduleByUserPhone(@Valid @RequestBody ReservationRequestDtoByUserPhone requestDto) {
         log.info(API_NAME + "/add/user");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhone(requestDto)));
     }
@@ -67,7 +72,7 @@ public class ReservationController {
     @PostMapping("all/usertime")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "회원별 시간별 일정 검색", notes = "트레이너가 회원별&시간별 일정을 모두 조회할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getScheduleByUserPhoneAndTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+    public ResponseEntity<? extends BasicResponse> getScheduleByUserPhoneAndTime(@Valid @RequestBody ReservationRequestDtoByUserPhoneAndTime requestDto) {
         System.out.println(API_NAME + "/all/usertime");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByUserPhoneAndTime(requestDto)));
     }
@@ -75,7 +80,7 @@ public class ReservationController {
     @PostMapping("all/time")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "시간별 일정 검색", notes = "트레이너가 원하는 시간대의 일정을 모두 조회할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getScheduleByTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+    public ResponseEntity<? extends BasicResponse> getScheduleByTime(@Valid @RequestBody ReservationTimeRequestDto requestDto) {
         log.info(API_NAME + "/add/time");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTime(requestDto)));
     }
@@ -83,7 +88,7 @@ public class ReservationController {
     @PostMapping("all/trainertime")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "트레이너별 시간별 일정 검색", notes = "트레이너가 트레이너별&시간별 일정을 모두 조회할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> getScheduleByTrainerIdAndTime(@Valid @RequestBody ReservationViewRequestDto requestDto) {
+    public ResponseEntity<? extends BasicResponse> getScheduleByTrainerIdAndTime(@Valid @RequestBody ReservationRequestDtoByTrainerIdAndTime requestDto) {
         System.out.println(API_NAME + "/all/trainertime");
         return ResponseEntity.ok(new CommonResponse<>(reservationService.getScheduleByTrainerIdAndTime(requestDto)));
     }

@@ -54,9 +54,9 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/authenticate/login/*").permitAll()
                 .antMatchers("/api/user/*", "/api/auth/user/*", "/api/auth/trainer/*", "/api/auth/gym/*").permitAll()
                 .antMatchers(
-                        "/v2/api-docs",  "/configuration/ui",
+                        "/v2/api-docs", "/configuration/ui",
                         "/swagger-resources/**", "/configuration/security",
-                        "/swagger-ui.html", "/webjars/**","/swagger/**", "/swagger-ui/*").permitAll()
+                        "/swagger-ui.html", "/webjars/**", "/swagger/**", "/swagger-ui/*").permitAll()
                 .anyRequest().authenticated() // 나머지는 인증 필요
 
                 .and()
@@ -64,7 +64,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }

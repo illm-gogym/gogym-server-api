@@ -10,5 +10,6 @@ import com.gogym.apiserver.entity.Reservation;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public interface ReservationWrapper extends UserReservationWrapper {
     public Reservation getReservation();
+
     public UserReservationWrapper getUser();
 }

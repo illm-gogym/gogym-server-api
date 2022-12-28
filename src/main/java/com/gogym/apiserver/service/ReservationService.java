@@ -3,15 +3,15 @@ package com.gogym.apiserver.service;
 import com.gogym.apiserver.dto.reservation.ReservationDto;
 import com.gogym.apiserver.dto.reservation.ReservationSaveRequestDto;
 import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
-import com.gogym.apiserver.dto.reservation.ReservationViewRequestDto;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByTrainerIdAndTime;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPhone;
+import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPhoneAndTime;
+import com.gogym.apiserver.dto.reservation.select.ReservationTimeRequestDto;
 import com.gogym.apiserver.dto.reservation.wrapper.ReservationWrapper;
-import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
-import com.gogym.apiserver.repository.RegistrationRepository;
 import com.gogym.apiserver.repository.ReservationRepository;
-import com.gogym.apiserver.utils.DateUtil;
 import com.gogym.apiserver.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +33,19 @@ public class ReservationService {
         return reservationRepository.getUsersByTrainerId(trainerId);
     }
 
-    public List<ReservationWrapper> getScheduleByUserPhone(ReservationViewRequestDto requestDto) {
+    public List<ReservationWrapper> getScheduleByUserPhone(ReservationRequestDtoByUserPhone requestDto) {
         return reservationRepository.getScheduleByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone());
     }
 
-    public List<ReservationWrapper> getScheduleByUserPhoneAndTime(ReservationViewRequestDto requestDto) {
+    public List<ReservationWrapper> getScheduleByUserPhoneAndTime(ReservationRequestDtoByUserPhoneAndTime requestDto) {
         return reservationRepository.getScheduleByUserPhoneAndTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getUserPhone(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
-    public List<ReservationWrapper> getScheduleByTime(ReservationViewRequestDto requestDto) {
+    public List<ReservationWrapper> getScheduleByTime(ReservationTimeRequestDto requestDto) {
         return reservationRepository.getScheduleByTime(SecurityUtil.getCurrentTrainerId().get(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
-    public List<ReservationWrapper> getScheduleByTrainerIdAndTime(ReservationViewRequestDto requestDto) {
+    public List<ReservationWrapper> getScheduleByTrainerIdAndTime(ReservationRequestDtoByTrainerIdAndTime requestDto) {
         return reservationRepository.getScheduleByTrainerIdAndTime(requestDto.getTrainerId(), requestDto.getStartTime(), requestDto.getEndTime());
     }
 
@@ -76,6 +76,7 @@ public class ReservationService {
         }
         return reservations;
     }
+
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
         Optional<Reservation> byId = reservationRepository.findById(requestDto.getReservationId());
         if (!byId.isPresent()) {

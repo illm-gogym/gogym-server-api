@@ -22,20 +22,20 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Trainer extends BaseTimeEntity {
     @Id
-    @Column(name="trainer_id")
+    @Column(name = "trainer_id")
     private String trainerId;
 
-    @Column(name="trainer_password")
+    @Column(name = "trainer_password")
     @JsonIgnore
     private String password;
 
-    @Column(name="trainer_name")
+    @Column(name = "trainer_name")
     private String name;
 
-    @Column(name="trainer_phone")
+    @Column(name = "trainer_phone")
     private String trainerPhone;
 
-    @Column(name="gym_id")
+    @Column(name = "gym_id")
     private Long gymId;
 
 
