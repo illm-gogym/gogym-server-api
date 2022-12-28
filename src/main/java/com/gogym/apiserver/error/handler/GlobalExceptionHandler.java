@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(PhoneNumberDuplicateException.class)
-    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(PhoneNumberDuplicateException ex){
+    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(PhoneNumberDuplicateException ex) {
         System.out.println("handlePhoneNumberDuplicateException : " + ex);
         ErrorResponse response = new ErrorResponse(ex.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex){
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
         System.out.println("handleException : " + ex);
         ErrorResponse response = new ErrorResponse(ErrorCode.INTER_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

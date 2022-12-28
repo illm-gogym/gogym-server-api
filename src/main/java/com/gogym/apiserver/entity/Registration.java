@@ -26,24 +26,24 @@ public class Registration extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long registrationId;
 
-    @Column(name="gym_id")
+    @Column(name = "gym_id")
     private Long gymId;
 
-    @Column(name="trainer_id")
+    @Column(name = "trainer_id")
     private String trainerId;
 
-    @Column(name="user_phone")
+    @Column(name = "user_phone")
     private String userPhone;
 
-    @Column(name="total")
+    @Column(name = "total")
     private int total;
 
-    @Column(name="remaining")
+    @Column(name = "remaining")
     private int remaining;
 
     private int status;
 
-    @Column(name="date_of_use")
+    @Column(name = "date_of_use")
     @Temporal(TemporalType.DATE)
     private Date date;
 }

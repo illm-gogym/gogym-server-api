@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 public abstract class BaseTimeEntity {
 
     @CreatedDate
-    @Column(name="ins_dtm", nullable = false, updatable = false)
+    @Column(name = "ins_dtm", nullable = false, updatable = false)
     @JsonProperty("ins_dtm")
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name="upd_dtm", nullable = false)
+    @Column(name = "upd_dtm", nullable = false)
     @JsonProperty("upd_dtm")
     private LocalDateTime updateDateTime;
 }
