@@ -67,7 +67,7 @@ public class JwtFilter implements Filter {
     private void setErrorResponse(HttpServletRequest request, HttpServletResponse response, ExpiredTokenException ex) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", ex.getErrorCode().getStatus());
+        body.put("status", ex.getErrorCode().getHttpStatus());
         body.put("error", ex.getErrorCode().getErrorCode());
         body.put("message", ex.getErrorCode().getMessage());
         body.put("path", request.getServletPath());

@@ -1,13 +1,18 @@
 package com.gogym.apiserver.service;
 
+import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.gym.Gym;
+import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.exception.CommonException;
 import com.gogym.apiserver.repository.GymRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class GymService {
     @Autowired
@@ -52,6 +57,11 @@ public class GymService {
     }
 
     public Gym updateGym(Gym req) {
+        Optional<Gym> gym = gymRepository.findByGymNameAndGymTel(req.getGymName(), req.getGymTel());
+        if (gym.isPresent()) {
+            log.info("duplication={}", gym);
+            throw new CommonException(ErrorCode.GYM_CONFLICT);
+        }
         return gymRepository.save(req);
     }
 
