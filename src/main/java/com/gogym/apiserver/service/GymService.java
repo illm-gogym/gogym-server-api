@@ -57,16 +57,12 @@ public class GymService {
     }
 
     public Gym updateGym(Gym req) {
-
         Optional<Gym> gym = gymRepository.findByGymNameAndGymTel(req.getGymName(), req.getGymTel());
         if (gym.isPresent()) {
-            // 중복
             log.info("duplication={}", gym);
             throw new CommonException(ErrorCode.GYM_CONFLICT);
         }
-
         return gymRepository.save(req);
-
     }
 
     public int deleteGym(String id) {
