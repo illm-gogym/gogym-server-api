@@ -1,6 +1,5 @@
 package com.gogym.apiserver.service;
 
-import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.gym.Gym;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.exception.CommonException;
@@ -56,13 +55,15 @@ public class GymService {
         return gymRepository.findAll();
     }
 
-    public Gym updateGym(Gym req) {
-        Optional<Gym> gym = gymRepository.findByGymNameAndGymTel(req.getGymName(), req.getGymTel());
-        if (gym.isPresent()) {
-            log.info("duplication={}", gym);
-            throw new CommonException(ErrorCode.GYM_CONFLICT);
+    public Gym updateGym(Gym reqGym) {
+        Optional<Gym> byId = gymRepository.findById(reqGym.getGymId());
+        if (!byId.isPresent()) {
+            log.info("GymId does not exist");
+            throw new CommonException(ErrorCode.GYM_NOT_FOUND);
         }
-        return gymRepository.save(req);
+        Gym gym = byId.get();
+        reqGym.updateGym(reqGym);
+        return gymRepository.save(reqGym);
     }
 
     public int deleteGym(String id) {
