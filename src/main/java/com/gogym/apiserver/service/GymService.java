@@ -62,7 +62,7 @@ public class GymService {
             throw new CommonException(ErrorCode.GYM_NOT_FOUND);
         }
         Gym gym = byId.get();
-        reqGym.updateGym(reqGym);
+        gym.updateGym(reqGym);
         return gymRepository.save(reqGym);
     }
 
