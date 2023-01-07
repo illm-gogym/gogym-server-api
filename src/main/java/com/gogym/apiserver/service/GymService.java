@@ -55,26 +55,15 @@ public class GymService {
         return gymRepository.findAll();
     }
 
-    public Gym updateGym(Gym gym) {
-        isExistGym(gym);
-        isUsedPhoneNumber(gym);
-        return gymRepository.save(gym);
-    }
-
-    private void isExistGym(Gym gym) {
-        Optional<Gym> byId = gymRepository.findById(gym.getGymId());
+    public Gym updateGym(Gym reqGym) {
+        Optional<Gym> byId = gymRepository.findById(reqGym.getGymId());
         if (!byId.isPresent()) {
             log.info("GymId does not exist");
             throw new CommonException(ErrorCode.GYM_NOT_FOUND);
         }
-    }
-
-    private void isUsedPhoneNumber(Gym gym) {
-        Optional<Gym> byGymNameAndGymTel = gymRepository.findByGymNameAndGymTel(gym.getGymName(), gym.getGymTel());
-        if (byGymNameAndGymTel.isPresent()) {
-            log.info("This phone number is already in use={}", gym);
-            throw new CommonException(ErrorCode.GYM_CONFLICT);
-        }
+        Gym gym = byId.get();
+        reqGym.updateGym(reqGym);
+        return gymRepository.save(reqGym);
     }
 
     public int deleteGym(String id) {

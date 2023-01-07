@@ -33,4 +33,11 @@ public class Gym extends BaseTimeEntity {
         System.out.println("gym_id : " + this.gymId);
         System.out.println("gym_name : " + this.gymName);
     }
+
+    public void updateGym(Gym gym) {
+        this.gymName = gym.getGymName();
+        this.gymTel = gym.getGymTel();
+        this.gymAddress = gym.getGymAddress();
+    }
+
 }
