@@ -23,6 +23,7 @@ public enum ErrorCode {
 
     // Gym
     GYM_CONFLICT(HttpStatus.CONFLICT, "GYM_CONFLICT_001", "이미 사용중인 전화번호 입니다."),
+    GYM_NOT_FOUND(HttpStatus.NOT_FOUND, "GYM_NOT_FOUND_001", "존재하지 않는 사용자입니다."),
 
     // Trainer
     TRAINER_ID_DUPLICATION(HttpStatus.CONFLICT, "TRAINER_CONFLICT_001", "이미 사용중인 전화번호 입니다"),
