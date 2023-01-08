@@ -13,6 +13,7 @@ import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.repository.ReservationRepository;
 import com.gogym.apiserver.utils.SecurityUtil;
+import com.gogym.apiserver.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -78,9 +79,12 @@ public class ReservationService {
     }
 
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
+
+        validateUpdate(requestDto);
+
         Optional<Reservation> byId = reservationRepository.findById(requestDto.getReservationId());
         if (!byId.isPresent()) {
-            new ErrorResponse(ErrorCode.NOT_FOUND);
+            new ErrorResponse(ErrorCode.NOT_FOUND_RESERVATION);
         }
 
         Reservation reservation = byId.get();
@@ -91,6 +95,15 @@ public class ReservationService {
                 , requestDto.getUsageState());
 
         return reservationRepository.save(reservation);
+    }
+
+    private void validateUpdate(ReservationUpdateRequestDto requestDto) {
+        if (!ValidationUtil.validPhoneNumber(requestDto.getUserPhone())) {
+            new ErrorResponse(ErrorCode.INVALID_PHONE_NUMBER);
+        }
+        if (requestDto.getStartTime().isBefore(requestDto.getEndTime())) {
+            new ErrorResponse(ErrorCode.INVALID_DATE);
+        }
     }
 
     public Reservation deleteSchedule(Long id) {

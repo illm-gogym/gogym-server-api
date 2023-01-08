@@ -29,7 +29,7 @@ public class UserService {
     public User getUserByUserPhone(String userPhone) {
         Optional<User> user = userRepository.findByUserPhone(userPhone);
         if (user.orElse(null) == null) {
-            throw new NotExistUserException("does not exist user", ErrorCode.NOT_EXIST_USER);
+            throw new NotExistUserException("does not exist user", ErrorCode.NOT_FOUND_USER);
         }
         return user.get();
     }
@@ -41,7 +41,7 @@ public class UserService {
     @Transactional
     public User signup(UserSaveRequestDto requestDto) {
         if (userRepository.findByUserPhone(requestDto.getPhone()).orElse(null) != null) {
-            throw new PhoneNumberDuplicateException("email duplicated", ErrorCode.PHONE_NUMBER_DUPLICATION);
+            throw new PhoneNumberDuplicateException("phoneNumber duplicated", ErrorCode.DUPLICATED_PHONE_NUMBER);
         }
 
         registrationService.addRegistration(requestDto);

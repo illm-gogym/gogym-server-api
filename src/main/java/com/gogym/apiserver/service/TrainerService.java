@@ -2,7 +2,6 @@ package com.gogym.apiserver.service;
 
 import com.gogym.apiserver.dto.trainer.TrainerSaveRequestDto;
 import com.gogym.apiserver.entity.Trainer;
-import com.gogym.apiserver.entity.User;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.error.exception.PhoneNumberDuplicateException;
@@ -23,7 +22,7 @@ public class TrainerService {
     @Transactional
     public Trainer signup(TrainerSaveRequestDto requestDto) {
         if (trainerRepository.findByTrainerId(requestDto.getTrainerId()).orElse(null) != null) {
-            throw new PhoneNumberDuplicateException("trainer id duplicated", ErrorCode.TRAINER_ID_DUPLICATION);
+            throw new PhoneNumberDuplicateException("trainer id duplicated", ErrorCode.DUPLICATED_TRAINER_ID);
         }
 
         return trainerRepository.save(makeTrainer(requestDto));
