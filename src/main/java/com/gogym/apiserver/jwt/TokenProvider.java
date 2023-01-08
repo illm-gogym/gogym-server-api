@@ -119,7 +119,7 @@ public class TokenProvider implements InitializingBean {
             throw new ExpiredTokenException("wrong", ErrorCode.INVALID_SIGNATURE);
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
-            throw new ExpiredTokenException("token is expired", ErrorCode.TOKEN_EXPIRED);
+            throw new ExpiredTokenException("token is expired", ErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
             throw new ExpiredTokenException("", ErrorCode.NOT_SUPPORTED_TOKEN);
