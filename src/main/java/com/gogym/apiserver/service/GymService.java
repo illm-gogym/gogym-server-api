@@ -59,7 +59,7 @@ public class GymService {
         Optional<Gym> byId = gymRepository.findById(reqGym.getGymId());
         if (!byId.isPresent()) {
             log.info("GymId does not exist");
-            throw new CommonException(ErrorCode.GYM_NOT_FOUND);
+            throw new CommonException(ErrorCode._NOT_FOUND_GYM);
         }
         Gym gym = byId.get();
         gym.updateGym(reqGym);
