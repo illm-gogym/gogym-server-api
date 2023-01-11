@@ -2,6 +2,7 @@ package com.gogym.apiserver.controller;
 
 import com.gogym.apiserver.controller.response.BasicResponse;
 import com.gogym.apiserver.controller.response.CommonResponse;
+import com.gogym.apiserver.dto.registration.RegistrationRequestDtoByUserPhone;
 import com.gogym.apiserver.service.RegistrationService;
 import com.gogym.apiserver.utils.SecurityUtil;
 import io.swagger.annotations.Api;
@@ -12,9 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @ApiResponses({
         @ApiResponse(code = 200, message = "OK"),
@@ -44,5 +45,13 @@ public class RegistrationController {
     public ResponseEntity<? extends BasicResponse> getRegistrationByTrainerId() {
         System.out.println(API_NAME + "/trainer/get");
         return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
+    }
+
+    @PostMapping("byuser")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ApiOperation(value = "회원 별 수강권 및 개인 정보 조회", notes = "트레이너가 특정 회원의 수강권 정보와 개인정보를 가져온다.")
+    public ResponseEntity<? extends BasicResponse> getRegistrationAndDetailByUserPhone(@Valid @RequestBody RegistrationRequestDtoByUserPhone requestDto) {
+        System.out.println(API_NAME + "/byuser");
+        return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationAndDetailByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto)));
     }
 }

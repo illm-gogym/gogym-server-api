@@ -1,4 +1,4 @@
-package com.gogym.apiserver.dto.user;
+package com.gogym.apiserver.dto.user.wrapper;
 
 public interface UserReservationWrapper {
     public String getUserPhone();

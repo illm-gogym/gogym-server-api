@@ -1,8 +1,10 @@
 package com.gogym.apiserver.service;
 
+import com.gogym.apiserver.dto.registration.RegistrationRequestDtoByUserPhone;
+import com.gogym.apiserver.dto.registration.wrapper.RegistrationWrapper;
 import com.gogym.apiserver.dto.user.UserSaveRequestDto;
 import com.gogym.apiserver.entity.Registration;
-import com.gogym.apiserver.repository.RegistrationRepository;
+import com.gogym.apiserver.repository.registration.RegistrationRepository;
 import com.gogym.apiserver.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,5 +45,9 @@ public class RegistrationService {
 
     public List<Registration> getRegistrationByTrainerId(String trainerId) {
         return registrationRepository.getRegistrationByTrainerId(trainerId);
+    }
+
+    public RegistrationWrapper getRegistrationAndDetailByUserPhone(String trainerId, RegistrationRequestDtoByUserPhone requestDto) {
+        return registrationRepository.getRegistrationAndDetailByUserPhone(trainerId, requestDto.getUserPhone());
     }
 }
