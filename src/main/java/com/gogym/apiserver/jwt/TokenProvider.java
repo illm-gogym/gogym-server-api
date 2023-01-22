@@ -69,7 +69,7 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-    public String createTokenForUser(Authentication authentication, com.gogym.apiserver.entity.User user) {
+    public String createTokenForUser(Authentication authentication) {
         String authorities = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
