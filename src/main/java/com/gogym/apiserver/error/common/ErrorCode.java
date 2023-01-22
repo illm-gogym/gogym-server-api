@@ -31,7 +31,13 @@ public enum ErrorCode {
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "INVALID_SIGNATURE", "잘못된 JWT 서명입니다."),
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "EXPIRED_TOKEN", "만료된 JWT 토큰입니다."),
     NOT_SUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "NOT_SUPPORTED_TOKEN", "지원되지 않는 JWT 토큰입니다."),
-    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "INVALID_TOKEN", "JWT 토큰이 잘못되었습니다.");
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "INVALID_TOKEN", "JWT 토큰이 잘못되었습니다."),
+
+    // Login
+    NOT_FOUND_USERPHONE(HttpStatus.NOT_FOUND, "NOTFOUND_USER", "없는 USER입니다."),
+    NOT_FOUND_TRAINER(HttpStatus.NOT_FOUND, "NOTFOUND_TRAINER", "없는 Trainer 입니다."),
+    WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, "WRONG_PASSWORD", "비밀번호가 틀렸습니다.");
+
 
     private HttpStatus httpStatus;
     private String errorCode;

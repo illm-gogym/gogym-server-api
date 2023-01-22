@@ -68,4 +68,6 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
+
+
 }

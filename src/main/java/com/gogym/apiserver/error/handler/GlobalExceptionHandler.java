@@ -3,6 +3,7 @@ package com.gogym.apiserver.error.handler;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.error.exception.CommonException;
+import com.gogym.apiserver.error.exception.LoginException;
 import com.gogym.apiserver.error.exception.PhoneNumberDuplicateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,13 @@ public class GlobalExceptionHandler {
         log.error("handleException : " + ex);
         ErrorResponse response = new ErrorResponse(ex.getHttpStatus(), ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(response, ex.getHttpStatus());
+    }
+
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<ErrorResponse> handleLoginException(LoginException ex) {
+        log.error("LoginException : " + ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, ex.getErrorCode().getHttpStatus());
     }
 
 }
