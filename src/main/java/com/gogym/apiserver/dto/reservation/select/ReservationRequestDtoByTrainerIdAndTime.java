@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReservationRequestDtoByTrainerIdAndTime extends ReservationTimeRequestDto {
-    @ApiModelProperty(example = "bellgym")
+    @ApiModelProperty(example = "[\n" +
+            "        \"ms\",\"ds\"\n" +
+            "    ]")
     private List<String> trainerId;
 }
