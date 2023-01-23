@@ -11,6 +11,8 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReservationRequestDtoByUserPhoneAndTime extends ReservationTimeRequestDto {
 
-    @ApiModelProperty(example = "01012345678")
+    @ApiModelProperty(example = "[\n" +
+            "        \"01012345678\",\"01099998888\"\n" +
+            "    ]")
     private List<String> userPhone;
 }

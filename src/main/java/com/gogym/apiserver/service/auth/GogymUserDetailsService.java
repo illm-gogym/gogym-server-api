@@ -1,7 +1,9 @@
-package com.gogym.apiserver.service;
+package com.gogym.apiserver.service.auth;
 
 import com.gogym.apiserver.entity.Trainer;
 import com.gogym.apiserver.entity.User;
+import com.gogym.apiserver.error.common.ErrorCode;
+import com.gogym.apiserver.error.exception.LoginException;
 import com.gogym.apiserver.repository.TrainerRepository;
 import com.gogym.apiserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.Collections;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class GogymUserDetailsService implements UserDetailsService {
 
     private final TrainerRepository trainerRepository;
     private final UserRepository userRepository;
@@ -27,13 +29,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username.contains("010")) {
+            System.out.printf("load user by user name : " + username);
             return userRepository.findByUserPhone(username)
                     .map(user -> createUserDetails(user))
-                    .orElseThrow(() -> new UsernameNotFoundException(username + " 존재하지 않는 username 입니다."));
+                    .orElseThrow(() -> new LoginException(username + " 존재하지 않는 user 입니다.", ErrorCode.NOT_FOUND_USERPHONE));
         }
         return trainerRepository.findByTrainerId(username)
                 .map(user -> createUserDetails(user))
-                .orElseThrow(() -> new UsernameNotFoundException(username + " 존재하지 않는 username 입니다."));
+                .orElseThrow(() -> new LoginException(username + " 존재하지 않는 trainer 입니다.", ErrorCode.NOT_FOUND_TRAINER));
     }
 
     // DB에서 조회한 user 정보를 기반으로 UserDetails의 구현체인

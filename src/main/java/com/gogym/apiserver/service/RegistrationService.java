@@ -1,11 +1,14 @@
 package com.gogym.apiserver.service;
 
+
+import com.gogym.apiserver.dto.registration.RegistrationRequestDtoByUserPhone;
+import com.gogym.apiserver.dto.registration.wrapper.RegistrationWrapper;
 import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
 import com.gogym.apiserver.dto.user.UserSaveRequestDto;
 import com.gogym.apiserver.entity.Registration;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.exception.CommonException;
-import com.gogym.apiserver.repository.RegistrationRepository;
+import com.gogym.apiserver.repository.registration.RegistrationRepository;
 import com.gogym.apiserver.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,8 +65,11 @@ public class RegistrationService {
 
         // 업데이트할 데이터 내용 정리 필요
         registration.update();
-        
+
         return null;
+    }
         
+    public RegistrationWrapper getRegistrationAndDetailByUserPhone(String trainerId, RegistrationRequestDtoByUserPhone requestDto) {
+        return registrationRepository.getRegistrationAndDetailByUserPhone(trainerId, requestDto.getUserPhone());
     }
 }

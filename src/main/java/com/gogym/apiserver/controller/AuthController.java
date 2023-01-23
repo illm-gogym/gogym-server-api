@@ -5,7 +5,7 @@ import com.gogym.apiserver.dto.trainer.TrainerLoginDto;
 import com.gogym.apiserver.dto.user.UserLoginDto;
 import com.gogym.apiserver.dto.user.UserResponseDto;
 import com.gogym.apiserver.jwt.JwtFilter;
-import com.gogym.apiserver.service.AuthService;
+import com.gogym.apiserver.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
