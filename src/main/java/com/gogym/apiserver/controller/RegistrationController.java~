@@ -47,11 +47,11 @@ public class RegistrationController {
         return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
     }
 
-    @PostMapping("update")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @ApiOperation(value = "회원 수강권 정보 수정", notes = "트레이너가 회원의 수강권 정보를 수정한다.")
-    public ResponseEntity<? extends BasicResponse> updateRegistration(@Valid @RequestBody ReservationUpdateRequestDto requestDto) {
-        log.info(API_NAME + "/update");
-        return ResponseEntity.ok(new CommonResponse<>(registrationService.updateRegistration(requestDto)));
-    }
+//    @PostMapping("update")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @ApiOperation(value = "회원 수강권 정보 수정", notes = "트레이너가 회원의 수강권 정보를 수정한다.")
+//    public ResponseEntity<? extends BasicResponse> updateRegistration(@Valid @RequestBody ReservationUpdateRequestDto requestDto) {
+//        log.info(API_NAME + "/update");
+//        return ResponseEntity.ok(new CommonResponse<>(registrationService.(requestDto)));
+//    }
 }
