@@ -3,7 +3,6 @@ package com.gogym.apiserver.controller;
 import com.gogym.apiserver.controller.response.BasicResponse;
 import com.gogym.apiserver.controller.response.CommonResponse;
 import com.gogym.apiserver.dto.reservation.ReservationUpdateRequestDto;
-import com.gogym.apiserver.dto.registration.RegistrationRequestDtoByUserPhone;
 import com.gogym.apiserver.service.RegistrationService;
 import com.gogym.apiserver.utils.SecurityUtil;
 import io.swagger.annotations.Api;
@@ -48,18 +47,11 @@ public class RegistrationController {
         return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationByTrainerId(SecurityUtil.getCurrentTrainerId().get())));
     }
 
-    @PostMapping("update")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @ApiOperation(value = "회원 수강권 정보 수정", notes = "트레이너가 회원의 수강권 정보를 수정한다.")
-    public ResponseEntity<? extends BasicResponse> updateRegistration(@Valid @RequestBody ReservationUpdateRequestDto requestDto) {
-        log.info(API_NAME + "/update");
-        return ResponseEntity.ok(new CommonResponse<>(registrationService.updateRegistration(requestDto)));
-    }
-    @PostMapping("byuser")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @ApiOperation(value = "회원 별 수강권 및 개인 정보 조회", notes = "트레이너가 특정 회원의 수강권 정보와 개인정보를 가져온다.")
-    public ResponseEntity<? extends BasicResponse> getRegistrationAndDetailByUserPhone(@Valid @RequestBody RegistrationRequestDtoByUserPhone requestDto) {
-        System.out.println(API_NAME + "/byuser");
-        return ResponseEntity.ok(new CommonResponse<>(registrationService.getRegistrationAndDetailByUserPhone(SecurityUtil.getCurrentTrainerId().get(), requestDto)));
-    }
+//    @PostMapping("update")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @ApiOperation(value = "회원 수강권 정보 수정", notes = "트레이너가 회원의 수강권 정보를 수정한다.")
+//    public ResponseEntity<? extends BasicResponse> updateRegistration(@Valid @RequestBody ReservationUpdateRequestDto requestDto) {
+//        log.info(API_NAME + "/update");
+//        return ResponseEntity.ok(new CommonResponse<>(registrationService.(requestDto)));
+//    }
 }

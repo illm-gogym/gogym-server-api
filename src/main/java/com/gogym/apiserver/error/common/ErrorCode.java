@@ -25,7 +25,11 @@ public enum ErrorCode {
     DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, "DUPLICATED_PHONE_NUMBER", "이미 사용중인 전화번호 입니다."),
 
     // Reservation
-    NOT_FOUND_RESERVATION(HttpStatus.CONFLICT, "NOT_FOUND_RESERVATION", "예약정보를 찾을 수 없습니다."),
+    NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "NOT_FOUND_RESERVATION", "예약정보를 찾을 수 없습니다."),
+
+    // Registration
+    NOT_FOUND_REGISTRATION(HttpStatus.NOT_FOUND, "NOT_FOUND_RESERVATION", "수강권 정보를 찾을 수 없습니다."),
+    INVALID_REGISTRATION(HttpStatus.NOT_FOUND, "NOT_FOUND_RESERVATION", "수강권 정보가 올바르지 않습니다."),
 
     // Token
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "INVALID_SIGNATURE", "잘못된 JWT 서명입니다."),
