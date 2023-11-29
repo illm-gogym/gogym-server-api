@@ -59,4 +59,3 @@ create table gym
     ins_dtm     datetime     not null,
     upd_dtm     datetime     not null
 ) CHARACTER SET UTF8;
-

@@ -35,7 +35,7 @@ public class RegistrationService {
                 .userPhone(requestDto.getPhone())
                 .total(requestDto.getTotal())
                 .status(1)
-                .remaining(requestDto.getRemaining())
+                .remaining(requestDto.getTotal())
                 .date(DateUtil.stringToDate(requestDto.getUntil()))
                 .build();
     }
