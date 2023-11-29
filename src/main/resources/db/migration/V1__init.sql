@@ -8,7 +8,7 @@ create table user
     ins_dtm       datetime     not null,
     upd_dtm       datetime     not null,
     role          varchar(20)  not null
-);
+) CHARACTER SET UTF8;
 
 create table trainer
 (
@@ -20,7 +20,7 @@ create table trainer
     ins_dtm          datetime     not null,
     upd_dtm          datetime     not null,
     role             varchar(20)  not null
-);
+) CHARACTER SET UTF8;
 
 create table registration
 (
@@ -34,7 +34,7 @@ create table registration
     status          int         not null,
     ins_dtm         datetime    not null,
     upd_dtm         datetime    not null
-);
+) CHARACTER SET UTF8;
 
 create table reservation
 (
@@ -48,7 +48,7 @@ create table reservation
     usage_state     int default -1,
     ins_dtm         datetime      not null,
     upd_dtm         datetime      not null
-);
+) CHARACTER SET UTF8;
 
 create table gym
 (
@@ -58,5 +58,5 @@ create table gym
     gym_address varchar(255) not null,
     ins_dtm     datetime     not null,
     upd_dtm     datetime     not null
-);
+) CHARACTER SET UTF8;
 
