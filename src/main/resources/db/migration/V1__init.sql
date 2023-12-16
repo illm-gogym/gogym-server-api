@@ -30,7 +30,8 @@ create table registration
     user_phone      varchar(20) not null,
     total           int         not null,
     remaining       int         not null,
-    date_of_use     date        not null,
+    start_date      date        not null,
+    end_date     date        not null,
     status          int         not null,
     ins_dtm         datetime    not null,
     upd_dtm         datetime    not null

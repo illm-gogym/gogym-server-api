@@ -41,6 +41,8 @@ public class UserSaveRequestDto {
     @ApiModelProperty(example = "0")
     private Integer remaining;
 
+    @ApiModelProperty(example = "2022-11-31")
+    private String startDate;
     @ApiModelProperty(example = "2022-12-31")
     private String until;
 
