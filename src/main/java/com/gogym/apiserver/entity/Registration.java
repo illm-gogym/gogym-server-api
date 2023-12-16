@@ -42,9 +42,12 @@ public class Registration extends BaseTimeEntity {
 
     private int status;
 
-    @Column(name = "date_of_use")
+    @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date startDate;
+    @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     public void update() {
 
@@ -58,9 +61,6 @@ public class Registration extends BaseTimeEntity {
         this.remaining = remaining;
     }
 
-    public void updateDate(Date date) {
-        this.date = date;
-    }
 
     public void complete() {
         this.status = 1;
@@ -78,7 +78,7 @@ public class Registration extends BaseTimeEntity {
 
     private boolean isValidDate() {
         Date today = new Date();
-        return today.before(this.date);
+        return today.before(this.endDate);
     }
 
     private boolean isRemain() {
