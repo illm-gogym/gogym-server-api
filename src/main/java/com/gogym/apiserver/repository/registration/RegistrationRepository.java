@@ -24,4 +24,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
 
     @Query("SELECT r as registration, u as user FROM Registration r inner join User u on u.userPhone = :userPhone and u.userPhone = r.userPhone and r.trainerId = :trainerId")
     RegistrationWrapper getRegistrationAndDetailByUserPhone(String trainerId, String userPhone);
+
+    @Query("SELECT r as registration, u as user FROM Registration r join User u on u.userPhone = r.userPhone where r.trainerId = :trainerId")
+    List<RegistrationWrapper> getRegistrationAndUserByTrainerId(String trainerId);
 }
