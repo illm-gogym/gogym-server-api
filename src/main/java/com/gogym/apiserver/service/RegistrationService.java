@@ -73,4 +73,10 @@ public class RegistrationService {
     public RegistrationWrapper getRegistrationAndDetailByUserPhone(String trainerId, RegistrationRequestDtoByUserPhone requestDto) {
         return registrationRepository.getRegistrationAndDetailByUserPhone(trainerId, requestDto.getUserPhone());
     }
+
+    public List<RegistrationWrapper> getRegistrationAndUserByTrainerId(String trainerId) {
+        return registrationRepository.getRegistrationAndUserByTrainerId(trainerId);
+    }
+
+
 }

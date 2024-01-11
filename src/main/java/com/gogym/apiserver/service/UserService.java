@@ -1,5 +1,7 @@
 package com.gogym.apiserver.service;
 
+import com.gogym.apiserver.dto.registration.UserAllDto;
+import com.gogym.apiserver.dto.registration.wrapper.RegistrationWrapper;
 import com.gogym.apiserver.dto.user.UserSaveRequestDto;
 import com.gogym.apiserver.entity.User;
 import com.gogym.apiserver.error.common.ErrorCode;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +37,21 @@ public class UserService {
         return user.get();
     }
 
-    public List<User> getUsersByTrainerId(String trainerId) {
-        return userRepository.getUsersByTrainerId(trainerId);
+    public List<UserAllDto> getUsersByTrainerId(String trainerId) {
+        List<RegistrationWrapper> res = registrationService.getRegistrationAndUserByTrainerId(trainerId);
+        List<UserAllDto> userList = new ArrayList<>();
+        for (RegistrationWrapper re : res) {
+            userList.add(UserAllDto.builder()
+                    .name(re.getUser().getName())
+                    .user_phone(re.getUser().getUserPhone())
+                    .gender(re.getUser().getGender())
+                    .ins_dtm(re.getUser().getCreatedDate().toString())
+                    .upd_dtm(re.getUser().getUpdateDateTime().toString())
+                    .start_date(re.getRegistration().getStartDate().toString())
+                    .end_date(re.getRegistration().getEndDate().toString())
+                    .build());
+        }
+        return userList;
     }
 
     @Transactional
