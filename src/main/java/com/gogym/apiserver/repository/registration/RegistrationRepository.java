@@ -14,7 +14,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     Long getRegistrationIdByTrainerIdAndUserPhone(String trainerId, String userPhone);
 
     @Query("SELECT r FROM Registration r WHERE r.userPhone = :userPhone")
-    List<Registration> getRegistratiqqonByUserPhoneList(String userPhone);
+    List<Registration> getRegistrationByUserPhoneList(String userPhone);
 
     @Query("SELECT r FROM Registration r WHERE r.userPhone = :userPhone")
     Optional<Registration> getRegistrationByUserPhone(String userPhone);
