@@ -9,6 +9,7 @@ import com.gogym.apiserver.entity.Registration;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.exception.CommonException;
 import com.gogym.apiserver.repository.registration.RegistrationRepository;
+import com.gogym.apiserver.utils.CommonUtil;
 import com.gogym.apiserver.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class RegistrationService {
     private Registration makeRegistration(UserSaveRequestDto requestDto) {
         return Registration.builder()
                 .gymId(requestDto.getGymId())
+                .registrationId(CommonUtil.NewResourceId("reg"))
                 .trainerId(requestDto.getTrainerId())
                 .userPhone(requestDto.getPhone())
                 .total(requestDto.getTotal())
@@ -41,7 +43,7 @@ public class RegistrationService {
                 .build();
     }
 
-    public Long getRegistrationId(String trainerId, String userPhone) {
+    public String getRegistrationId(String trainerId, String userPhone) {
         return registrationRepository.getRegistrationIdByTrainerIdAndUserPhone(trainerId, userPhone);
     }
 

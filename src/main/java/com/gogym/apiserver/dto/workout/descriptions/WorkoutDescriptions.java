@@ -1,4 +1,4 @@
-package com.gogym.apiserver.entity;
+package com.gogym.apiserver.dto.workout.descriptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Builder
@@ -23,24 +21,12 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Reservation extends BaseTimeEntity {
+public class WorkoutDescriptions extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long descriptionId;
 
     private String reservationId;
 
-    private String registrationId;
-    private String trainerId;
-    private String userPhone;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private int usageState;
-
-    public void updateReservation(String userPhone, LocalDateTime startTime, LocalDateTime endTime, Integer usageState) {
-        this.userPhone = userPhone;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.usageState = usageState;
-    }
+    private String description;
 }

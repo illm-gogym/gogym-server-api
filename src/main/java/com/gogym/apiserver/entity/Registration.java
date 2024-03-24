@@ -23,7 +23,9 @@ public class Registration extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long registrationId;
+    private Long id;
+
+    private String registrationId;
 
     @Column(name = "gym_id")
     private Long gymId;
