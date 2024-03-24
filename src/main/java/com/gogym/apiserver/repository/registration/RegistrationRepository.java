@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
     @Query("SELECT r.registrationId as registration FROM Registration r WHERE r.trainerId = :trainerId AND r.userPhone = :userPhone")
-    Long getRegistrationIdByTrainerIdAndUserPhone(String trainerId, String userPhone);
+    String getRegistrationIdByTrainerIdAndUserPhone(String trainerId, String userPhone);
 
     @Query("SELECT r FROM Registration r WHERE r.userPhone = :userPhone")
     List<Registration> getRegistrationByUserPhoneList(String userPhone);

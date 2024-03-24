@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.gogym.apiserver.dto.user.wrapper.UserReservationWrapper;
+import com.gogym.apiserver.dto.workout.descriptions.WorkoutDescriptions;
 import com.gogym.apiserver.entity.Reservation;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -12,4 +13,5 @@ public interface ReservationWrapper extends UserReservationWrapper {
     public Reservation getReservation();
 
     public UserReservationWrapper getUser();
+    public WorkoutDescriptions getWorkoutDescriptions();
 }

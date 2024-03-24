@@ -8,10 +8,14 @@ import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPho
 import com.gogym.apiserver.dto.reservation.select.ReservationRequestDtoByUserPhoneAndTime;
 import com.gogym.apiserver.dto.reservation.select.ReservationTimeRequestDto;
 import com.gogym.apiserver.dto.reservation.wrapper.ReservationWrapper;
+import com.gogym.apiserver.dto.workout.descriptions.WorkoutDescriptions;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
 import com.gogym.apiserver.repository.ReservationRepository;
+import com.gogym.apiserver.repository.workout.descriptions.WorkoutDescriptionsRepository;
+import com.gogym.apiserver.service.workout.WorkoutDescriptionsService;
+import com.gogym.apiserver.utils.CommonUtil;
 import com.gogym.apiserver.utils.SecurityUtil;
 import com.gogym.apiserver.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,8 @@ import java.util.Optional;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final RegistrationService registrationService;
+    private final WorkoutDescriptionsService workoutDescriptionsService;
+    private final WorkoutDescriptionsRepository workoutDescriptionsRepository;
 
     public List<ReservationWrapper> getScheduleByTrainer(String trainerId) {
         return reservationRepository.getUsersByTrainerId(trainerId);
@@ -52,30 +58,33 @@ public class ReservationService {
 
     @Transactional
     public List<Reservation> addSchedule(ReservationSaveRequestDto requestDto) {
-        return reservationRepository.saveAll(makeReservation(requestDto));
+        List<Reservation> reservations = new ArrayList<>();
+        List<WorkoutDescriptions> workoutDescriptions = new ArrayList<>();
+        for (ReservationDto reservationDto : requestDto.getReservations()) {
+            String reservationId = CommonUtil.NewResourceId("res");
+            reservations.add(makeReservation(reservationDto, reservationId));
+            workoutDescriptions.add(workoutDescriptionsService.makeWorkoutDescriptions(reservationDto, reservationId));
+        }
+        List<Reservation> resultReservations = reservationRepository.saveAll(reservations);
+        workoutDescriptionsService.saveWorkoutDescriptions(workoutDescriptions);
+        return resultReservations;
     }
 
-    private List<Reservation> makeReservation(ReservationSaveRequestDto requestDto) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (ReservationDto reservationDto : requestDto.getReservations()) {
-            String trainerId = SecurityUtil.getCurrentTrainerId().get();
-            String userPhone = reservationDto.getUserPhone();
-            log.info("trainer_id={}, user_phone={}", trainerId, userPhone);
-            Long registrationId = registrationService.getRegistrationId(trainerId, userPhone);
-            log.info("registratiaon_id={}", registrationId);
-            System.out.println();
-            Reservation reservation = Reservation.builder()
-                    .registrationId(registrationId)
-                    .trainerId(trainerId)
-                    .userPhone(userPhone)
-                    .startTime(reservationDto.getStartTime())
-                    .endTime(reservationDto.getEndTime())
-                    .description(reservationDto.getDescription())
-                    .usageState(reservationDto.getUsageState())
-                    .build();
-            reservations.add(reservation);
-        }
-        return reservations;
+    private Reservation makeReservation(ReservationDto reservationDto, String reservationId) {
+        String trainerId = SecurityUtil.getCurrentTrainerId().get();
+        String userPhone = reservationDto.getUserPhone();
+        log.info("trainer_id={}, user_phone={}", trainerId, userPhone);
+        String registrationId = registrationService.getRegistrationId(trainerId, userPhone);
+        log.info("registratiaon_id={}", registrationId);
+        return Reservation.builder()
+                .reservationId(reservationId)
+                .registrationId(registrationId)
+                .trainerId(trainerId)
+                .userPhone(userPhone)
+                .startTime(reservationDto.getStartTime())
+                .endTime(reservationDto.getEndTime())
+                .usageState(reservationDto.getUsageState())
+                .build();
     }
 
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
@@ -91,7 +100,6 @@ public class ReservationService {
         reservation.updateReservation(requestDto.getUserPhone()
                 , requestDto.getStartTime()
                 , requestDto.getEndTime()
-                , requestDto.getDescription()
                 , requestDto.getUsageState());
 
         return reservationRepository.save(reservation);
