@@ -87,20 +87,24 @@ public class ReservationService {
                 .build();
     }
 
+    @Transactional
     public Reservation updateSchedule(ReservationUpdateRequestDto requestDto) {
 
         validateUpdate(requestDto);
 
-        Optional<Reservation> byId = reservationRepository.findById(requestDto.getReservationId());
-        if (!byId.isPresent()) {
+        Optional<Reservation> res = reservationRepository.findReservationByReservationId(requestDto.getReservationId());
+        if (!res.isPresent()) {
             new ErrorResponse(ErrorCode.NOT_FOUND_RESERVATION);
         }
 
-        Reservation reservation = byId.get();
+        Reservation reservation = res.get();
         reservation.updateReservation(requestDto.getUserPhone()
                 , requestDto.getStartTime()
                 , requestDto.getEndTime()
                 , requestDto.getUsageState());
+
+        // TODO error handling
+        workoutDescriptionsService.updateWokroutDescriptions(reservation.getReservationId());
 
         return reservationRepository.save(reservation);
     }
