@@ -26,5 +26,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT u as user, re as reservation, de as workoutDescriptions FROM Reservation re INNER JOIN User u ON re.userPhone = u.userPhone INNER JOIN WorkoutDescriptions de ON re.reservationId = de.reservationId WHERE re.trainerId IN (:trainerId) AND re.startTime >= :startTime AND re.endTime <= :endTime ORDER BY re.startTime DESC")
     List<ReservationWrapper> getScheduleByTrainerIdAndTime(List<String> trainerId, LocalDateTime startTime, LocalDateTime endTime);
 
-    Optional<Reservation> findReservationByReservationId(String reservationId);
+    @Query("SELECT re FROM Reservation re WHERE re.reservationId = :reservationId")
+    List<Reservation> findReservationByReservationId(String reservationId);
 }

@@ -6,10 +6,12 @@ import com.gogym.apiserver.dto.workout.descriptions.WorkoutDescriptions;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
+import com.gogym.apiserver.error.exception.CommonException;
 import com.gogym.apiserver.repository.workout.descriptions.WorkoutDescriptionsRepository;
 import com.gogym.apiserver.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,15 +33,25 @@ public class WorkoutDescriptionsService {
         return workoutDescriptionsRepository.saveAll(workoutDescriptions);
     }
 
-    public WorkoutDescriptions updateWokroutDescriptions(String reservationId) {
-        Optional<WorkoutDescriptions> wd = workoutDescriptionsRepository.findWorkoutDescriptionsByReservationId(reservationId);
-        if (!wd.isPresent()) {
-            new ErrorResponse(ErrorCode.NOT_FOUND_RESERVATION);
+    public WorkoutDescriptions updateWorkoutDescriptions(String reservationId, String description) {
+        List<WorkoutDescriptions> wd = workoutDescriptionsRepository.findWorkoutDescriptionsByReservationId(reservationId);
+        if (wd.size() == 0) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESERVATION);
         }
-        WorkoutDescriptions workoutDescriptions = wd.get();
-        return workoutDescriptionsRepository.save(WorkoutDescriptions.builder()
-                .reservationId(reservationId)
-                .description(workoutDescriptions.getDescription())
-                .build());
+        WorkoutDescriptions workoutDescriptions = wd.get(0);
+        workoutDescriptions.updateWorkoutDescriptions(description);
+        return workoutDescriptionsRepository.save(workoutDescriptions);
+    }
+
+    public WorkoutDescriptions deleteWorkoutDescriptions(String reservationId) {
+        List<WorkoutDescriptions> wd = workoutDescriptionsRepository.findWorkoutDescriptionsByReservationId(reservationId);
+        if (wd.size() == 0) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESERVATION);
+        }
+
+        WorkoutDescriptions workoutDescriptions = wd.get(0);
+        workoutDescriptionsRepository.delete(workoutDescriptions);
+
+        return workoutDescriptions;
     }
 }

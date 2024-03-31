@@ -12,6 +12,7 @@ import com.gogym.apiserver.dto.workout.descriptions.WorkoutDescriptions;
 import com.gogym.apiserver.entity.Reservation;
 import com.gogym.apiserver.error.common.ErrorCode;
 import com.gogym.apiserver.error.common.ErrorResponse;
+import com.gogym.apiserver.error.exception.CommonException;
 import com.gogym.apiserver.repository.ReservationRepository;
 import com.gogym.apiserver.repository.workout.descriptions.WorkoutDescriptionsRepository;
 import com.gogym.apiserver.service.workout.WorkoutDescriptionsService;
@@ -92,19 +93,19 @@ public class ReservationService {
 
         validateUpdate(requestDto);
 
-        Optional<Reservation> res = reservationRepository.findReservationByReservationId(requestDto.getReservationId());
-        if (!res.isPresent()) {
-            new ErrorResponse(ErrorCode.NOT_FOUND_RESERVATION);
+        List<Reservation> res = reservationRepository.findReservationByReservationId(requestDto.getReservationId());
+        if (res.size() == 0) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESERVATION);
         }
 
-        Reservation reservation = res.get();
+        Reservation reservation = res.get(0);
         reservation.updateReservation(requestDto.getUserPhone()
                 , requestDto.getStartTime()
                 , requestDto.getEndTime()
                 , requestDto.getUsageState());
 
         // TODO error handling
-        workoutDescriptionsService.updateWokroutDescriptions(reservation.getReservationId());
+        workoutDescriptionsService.updateWorkoutDescriptions(reservation.getReservationId(), requestDto.getDescription());
 
         return reservationRepository.save(reservation);
     }
@@ -118,14 +119,18 @@ public class ReservationService {
         }
     }
 
-    public Reservation deleteSchedule(Long id) {
-        Optional<Reservation> byId = reservationRepository.findById(id);
-        if (!byId.isPresent()) {
-            new ErrorResponse(ErrorCode.NOT_FOUND);
+    @Transactional
+    public Reservation deleteSchedule(String reservationId) {
+        List<Reservation> res = reservationRepository.findReservationByReservationId(reservationId);
+
+        if (res.size() == 0) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESERVATION);
         }
 
-        Reservation reservation = byId.get();
+        Reservation reservation = res.get(0);
         reservationRepository.delete(reservation);
+
+        workoutDescriptionsService.deleteWorkoutDescriptions(reservationId);
 
         return reservation;
     }
