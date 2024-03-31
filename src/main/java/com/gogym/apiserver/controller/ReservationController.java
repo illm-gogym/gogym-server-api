@@ -48,9 +48,9 @@ public class ReservationController {
     @PostMapping("delete/{reservation_id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "일정 삭제", notes = "트레이너가 회원 일정을 삭제할 수 있다.")
-    public ResponseEntity<? extends BasicResponse> deleteSchedule(@PathVariable("reservation_id") Long id) {
+    public ResponseEntity<? extends BasicResponse> deleteSchedule(@PathVariable("reservation_id") String reservationId) {
         log.info(API_NAME + "/delete");
-        return ResponseEntity.ok(new CommonResponse<>(reservationService.deleteSchedule(id)));
+        return ResponseEntity.ok(new CommonResponse<>(reservationService.deleteSchedule(reservationId)));
     }
 
     @GetMapping("all")

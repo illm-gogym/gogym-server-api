@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -29,4 +30,8 @@ public class WorkoutDescriptions extends BaseTimeEntity {
     private String reservationId;
 
     private String description;
+
+    public void updateWorkoutDescriptions(String description) {
+        this.description = description;
+    }
 }

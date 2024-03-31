@@ -43,6 +43,7 @@ public enum ErrorCode {
     WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, "WRONG_PASSWORD", "비밀번호가 틀렸습니다.");
 
 
+
     private HttpStatus httpStatus;
     private String errorCode;
     private String message;
